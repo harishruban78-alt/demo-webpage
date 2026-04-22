@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Shakthi's Food Court</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 30px 20px 60px;
+    overflow-x: hidden;
+  }
+  h1.page-title {
+    color: #fff;
+  j  font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .subtitle { color: #ccc; font-size: 0.85rem; text-align: center; margin-bottom: 30px; }
+  .phones-wrapper {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .phone-container { display: flex; flex-direction: column; align-items: center; }
+  .phone-label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 20px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .iphone {
+    width: 375px;
+    height: 812px;
+    background: #1a1a1a;
+    border-radius: 55px;
+    box-shadow: 0 0 0 2px #333, 0 0 0 6px #111, 0 30px 80px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .iphone-notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 150px; height: 30px;
+    background: #1a1a1a;
+    border-radius: 0 0 20px 20px;
+    z-index: 100;
+  }
+  .iphone-screen {
+    flex: 1;
+    margin: 10px 6px 6px 6px;
+    border-radius: 49px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+  }
+  .back-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    z-index: 999;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+  .back-btn:hover { background: #fff; transform: scale(1.1); }
+  .page {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .page.active { display: flex; }
+
+  /* ===== SPLASH PAGE ===== */
+  .splash-bg {
+    background: linear-gradient(160deg, #1a0533, #3d0066, #1a0533);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .splash-bg::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .food-icons-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+  .food-float {
+    position: absolute;
+    font-size: 2rem;
+    animation: floatFood 4s ease-in-out infinite;
+    opacity: 0.2;
+  }
+  @keyframes floatFood {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
+  }
+  .splash-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.4rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 30px rgba(255,180,50,0.8), 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 1;
+    animation: splashZoom 2s ease-out forwards;
+    line-height: 1.3;
+    padding: 0 20px;
+  }
+  @keyframes splashZoom {
+    0% { transform: scale(3); opacity: 0; }
+    60% { transform: scale(0.95); opacity: 1; }
+    80% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .splash-subtitle {
+    color: #ffcc44;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    z-index: 1;
+    margin-top: 10px;
+    animation: fadeIn 2s 1s both;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ===== ACCOUNT CREATION / LOGIN PAGE ===== */
+  .account-bg {
+    background: linear-gradient(160deg, #0d1b2a, #1b2838, #0d1b2a);
+    position: relative; overflow: hidden;
+  }
+  .food-wallpaper {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; flex-wrap: wrap;
+    gap: 0; overflow: hidden; opacity: 0.18;
+  }
+  .food-tile { font-size: 2.5rem; padding: 8px; animation: pulseTile 3s ease-in-out infinite; }
+  .food-tile:nth-child(odd) { animation-delay: 1.5s; }
+  @keyframes pulseTile { 0%,100%{opacity:0.7;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+  .form-box {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    padding: 24px 22px;
+    margin: 55px 18px 20px;
+    z-index: 1;
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .form-box::-webkit-scrollbar { width: 3px; }
+  .form-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 2px; }
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .form-sub { color: #aaa; font-size: 0.7rem; text-align: center; margin-bottom: 20px; }
+  .inp-group { margin-bottom: 14px; }
+  .inp-label { color: #ccc; font-size: 0.7rem; margin-bottom: 4px; display: block; letter-spacing: 1px; text-transform: uppercase; }
+  .inp-field {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 0.85rem;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .inp-field:focus { border-color: #ffcc44; }
+  .inp-field::placeholder { color: rgba(255,255,255,0.4); }
+  .inp-field option { background: #1b2838; color: #fff; }
+  .btn-main {
+    width: 100%;
+    background: linear-gradient(135deg, #ff6b35, #f7c59f, #ff6b35);
+    background-size: 200% auto;
+    border: none;
+    border-radius: 14px;
+    padding: 13px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .btn-main:hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.4); }
+  .login-link { color: #ffcc44; font-size: 0.78rem; text-align: center; margin-top: 12px; cursor: pointer; text-decoration: underline; }
+
+  /* ===== MENU PAGE ===== */
+  .menu-page { background: linear-gradient(180deg, #0a0015 0%, #1a0533 100%); }
+  .menu-header {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    padding: 42px 16px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .hamburger-btn {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.12);
+    border: none; border-radius: 10px;
+    color: #fff; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .hamburger-btn:hover { background: rgba(255,255,255,0.22); }
+  .menu-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    color: #ffcc44;
+    text-shadow: 0 0 10px rgba(255,200,0,0.5);
+  }
+  .cart-icon-btn {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    border: none; border-radius: 10px;
+    color: #fff; font-size: 1.1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .menu-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+  .menu-body::-webkit-scrollbar { width: 3px; }
+  .menu-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+  .menu-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .menu-section-title span { font-size: 1.2rem; }
+  .menu-block {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+  .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .food-card {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .food-card:hover { transform: scale(1.03); }
+  .food-card.selected {
+    background: rgba(100,180,255,0.25);
+    border-color: #64b4ff;
+    box-shadow: 0 0 15px rgba(100,180,255,0.3);
+    animation: selectPop 0.3s ease;
+  }
+  @keyframes selectPop { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+  .food-emoji { font-size: 2rem; display: block; margin-bottom: 4px; }
+  .food-name { color: #fff; font-size: 0.68rem; font-weight: 600; margin-bottom: 2px; }
+  .food-price { color: #ffcc44; font-size: 0.7rem; font-weight: 700; }
+  .add-cart-bar {
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    display: none;
+  }
+  .add-cart-bar.visible { display: block; }
+  .btn-cart {
+    width: 100%;
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    border: none; border-radius: 14px;
+    padding: 13px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.3s;
+  }
+  .btn-cart:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.4); }
+
+  /* ===== DRAWER / SIDEBAR ===== */
+  .drawer-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    display: none;
+  }
+  .drawer-overlay.open { display: block; }
+  .drawer {
+    position: absolute; top: 0; left: -220px; bottom: 0;
+    width: 220px;
+    background: linear-gradient(160deg, #0d1b2a, #1b2838);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    z-index: 51;
+    transition: left 0.3s ease;
+    padding: 60px 0 20px;
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { left: 0; }
+  .drawer-header { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; }
+  .drawer-name { color: #fff; font-weight: 700; font-size: 0.9rem; }
+  .drawer-role { color: #aaa; font-size: 0.7rem; }
+  .drawer-btn {
+    padding: 14px 20px;
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
+    transition: background 0.2s;
+    border: none; background: transparent; width: 100%; text-align: left;
+    font-family: 'Poppins', sans-serif;
+  }
+  .drawer-btn:hover { background: rgba(255,255,255,0.08); }
+  .drawer-btn .dbtn-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+
+  /* ===== CONFIRM ORDER PAGE ===== */
+  .confirm-page { background: linear-gradient(180deg, #0a0015, #1a0533); }
+  .confirm-header {
+    background: rgba(255,255,255,0.07);
+    padding: 42px 16px 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .page-back-btn {
+    background: rgba(255,255,255,0.12);
+    border: none; border-radius: 10px;
+    width: 36px; height: 36px;
+    color: #fff; font-size: 1.1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .page-back-title { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.1rem; }
+  .confirm-body { flex: 1; overflow-y: auto; padding: 16px; }
+  .order-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .order-emoji { font-size: 2.2rem; }
+  .order-info { flex: 1; }
+  .order-name { color: #fff; font-size: 0.82rem; font-weight: 600; }
+  .order-price { color: #ffcc44; font-size: 0.78rem; margin-top: 2px; }
+  .qty-ctrl { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: #fff; font-size: 1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .qty-btn:hover { background: rgba(255,107,53,0.4); }
+  .qty-num { color: #fff; font-weight: 600; min-width: 20px; text-align: center; font-size: 0.85rem; }
+  .total-bar {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin: 10px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .total-label { color: #aaa; font-size: 0.8rem; }
+  .total-amount { color: #ffcc44; font-size: 1.2rem; font-weight: 700; }
+  .confirm-footer { padding: 12px 16px; background: rgba(0,0,0,0.4); }
+
+  /* ===== PAYMENT PAGE ===== */
+  .payment-page { background: linear-gradient(180deg, #0a0015, #1a0533); }
+  .payment-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+  .qr-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 180px; height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 30px rgba(255,200,0,0.3);
+  }
+  .qr-svg { width: 140px; height: 140px; }
+  .payment-amount { color: #ffcc44; font-size: 1.8rem; font-weight: 700; margin: 10px 0; }
+  .payment-note { color: #aaa; font-size: 0.75rem; text-align: center; max-width: 220px; }
+
+  /* ===== TOKEN PAGE ===== */
+  .token-page { background: linear-gradient(160deg, #0a0015, #001a00, #0a0015); }
+  .token-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+  .token-card {
+    background: linear-gradient(135deg, rgba(0,200,100,0.15), rgba(0,100,50,0.1));
+    border: 2px solid rgba(0,220,110,0.4);
+    border-radius: 24px;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 310px;
+    text-align: center;
+    animation: tokenAppear 0.8s ease-out;
+    box-shadow: 0 0 40px rgba(0,220,110,0.2);
+  }
+  .token-card.invalidated {
+    background: rgba(50,50,50,0.3);
+    border-color: rgba(100,100,100,0.4);
+    filter: grayscale(0.8);
+  }
+  .token-invalid-text { color: #666; font-size: 1.2rem; font-weight: 700; display: block; margin-top: 10px; }
+  @keyframes tokenAppear {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    60% { transform: scale(1.1) rotate(2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .token-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: #00dc6e;
+    font-weight: 900;
+    text-shadow: 0 0 30px rgba(0,220,110,0.7);
+    display: block;
+    animation: tokenPulse 2s ease-in-out infinite;
+  }
+  @keyframes tokenPulse { 0%,100%{text-shadow:0 0 30px rgba(0,220,110,0.7)} 50%{text-shadow:0 0 60px rgba(0,220,110,1)} }
+  .token-label { color: #aaa; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+  .token-detail { color: #ccc; font-size: 0.78rem; margin: 6px 0; }
+  .token-detail strong { color: #fff; }
+  .token-divider { border: none; border-top: 1px dashed rgba(0,220,110,0.3); margin: 12px 0; }
+
+  /* ===== OVERLAY PAGES (Account Details, Orders, Language) ===== */
+  .overlay-page {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(160deg, #0d1b2a, #1b2838);
+    z-index: 60;
+    display: none;
+    flex-direction: column;
+    padding: 50px 20px 20px;
+    overflow-y: auto;
+  }
+  .overlay-page.open { display: flex; }
+  .overlay-title {
+    font-family: 'Playfair Display', serif;
+    color: #ffcc44;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .overlay-close {
+    background: rgba(255,255,255,0.12);
+    border: none; border-radius: 10px;
+    width: 32px; height: 32px;
+    color: #fff; font-size: 1rem;
+    cursor: pointer;
+  }
+  .info-row {
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .info-key { color: #aaa; font-size: 0.78rem; }
+  .info-val { color: #fff; font-size: 0.82rem; font-weight: 600; }
+  .lang-btn {
+    padding: 14px 20px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    color: #fff; font-size: 0.9rem;
+    cursor: pointer; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.2s;
+    font-family: 'Poppins', sans-serif;
+    width: 100%; text-align: left;
+  }
+  .lang-btn:hover { background: rgba(255,200,0,0.15); border-color: #ffcc44; }
+  .lang-btn.active { background: rgba(255,200,0,0.2); border-color: #ffcc44; }
+
+  /* ===== ADMIN SPECIFIC ===== */
+  .admin-splash { background: linear-gradient(160deg, #002244, #004488, #002244); }
+  .admin-token-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .admin-token-num { font-size: 1.5rem; font-weight: 700; color: #00dc6e; font-family: 'Playfair Display',serif; }
+  .admin-token-detail { color: #ccc; font-size: 0.75rem; margin: 4px 0; }
+  .msg-box-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 80;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .msg-box-overlay.open { display: flex; }
+  .msg-box {
+    background: #1b2838;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    max-width: 280px;
+    width: 100%;
+  }
+  .msg-box h3 { color: #fff; font-size: 1rem; margin-bottom: 8px; }
+  .msg-box p { color: #aaa; font-size: 0.78rem; margin-bottom: 20px; }
+  .msg-box-btns { display: flex; gap: 10px; }
+  .msg-no { flex: 1; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; cursor: pointer; font-family: 'Poppins',sans-serif; font-size: 0.85rem; }
+  .msg-yes { flex: 1; padding: 10px; background: linear-gradient(135deg, #00bb55, #00dc6e); border: none; border-radius: 12px; color: #fff; cursor: pointer; font-family: 'Poppins',sans-serif; font-size: 0.85rem; font-weight: 700; }
+
+  /* Status bar */
+  .status-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 36px; z-index: 99;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 20px 6px;
+  }
+  .status-time { color: #fff; font-size: 0.7rem; font-weight: 600; }
+  .status-icons { color: #fff; font-size: 0.6rem; display: flex; gap: 4px; align-items: center; }
+
+  .section-sep { margin: 16px 0; }
+
+  .empty-state { color: #aaa; text-align: center; padding: 30px; font-size: 0.85rem; }
+  .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+  .tab-toggle {
+    display: flex; gap: 8px; margin-bottom: 16px;
+  }
+  .tab-btn {
+    flex: 1; padding: 8px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #aaa; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins',sans-serif;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: rgba(255,107,53,0.3); border-color: #ff6b35; color: #fff; }
+
+  .admin-menu-check {
+    position: absolute; top: 6px; right: 6px;
+    background: #64b4ff; color: #fff;
+    border-radius: 50%; width: 16px; height: 16px;
+    font-size: 0.6rem; display: none;
+    align-items: center; justify-content: center;
+  }
+  .food-card.selected .admin-menu-check { display: flex; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .badge-orange { background: rgba(255,107,53,0.2); color: #ff6b35; border: 1px solid rgba(255,107,53,0.3); }
+  .badge-green { background: rgba(0,220,110,0.2); color: #00dc6e; border: 1px solid rgba(0,220,110,0.3); }
+
+  .divider-line { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 14px 0; }
+
+  @keyframes slideUp { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
+  .slide-up { animation: slideUp 0.4s ease-out; }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">🍽️ Sri Shakthi's Food Court</h1>
+<p class="subtitle">Demo Presentation — Student App &amp; Admin App</p>
+
+<div class="phones-wrapper">
+
+  <!-- ============================================================ -->
+  <!-- STUDENT APP PHONE -->
+  <!-- ============================================================ -->
+  <div class="phone-container">
+    <div class="phone-label">👨‍🎓 Student App</div>
+    <div class="iphone" id="student-phone">
+      <div class="iphone-notch"></div>
+      <div class="iphone-screen">
+
+        <!-- PAGE: SPLASH -->
+        <div class="page splash-bg active" id="s-splash">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="food-icons-bg">
+            <span class="food-float" style="top:10%;left:5%;animation-delay:0s">🍛</span>
+            <span class="food-float" style="top:20%;right:8%;animation-delay:0.5s">🥘</span>
+            <span class="food-float" style="top:40%;left:15%;animation-delay:1s">🍜</span>
+            <span class="food-float" style="top:60%;right:5%;animation-delay:0.3s">🥗</span>
+            <span class="food-float" style="top:75%;left:8%;animation-delay:0.8s">🍱</span>
+            <span class="food-float" style="bottom:15%;right:12%;animation-delay:1.2s">☕</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1">
+            <div style="font-size:3.5rem;margin-bottom:10px;animation:splashZoom 2s ease-out">🍽️</div>
+            <div class="splash-title">Sri Shakthi's<br>Food Court</div>
+            <div class="splash-subtitle">College Canteen</div>
+          </div>
+          <div style="padding:30px;text-align:center;z-index:1">
+            <div style="width:40px;height:3px;background:rgba(255,255,255,0.3);border-radius:2px;margin:0 auto;animation:fadeIn 2s 1.5s both;"></div>
+          </div>
+        </div>
+
+        <!-- PAGE: STUDENT ACCOUNT CREATION -->
+        <div class="page account-bg" id="s-account">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="food-wallpaper" id="s-wallpaper"></div>
+          <div class="form-box">
+            <div class="form-title">Create Account</div>
+            <div class="form-sub">Join Sri Shakthi's Food Court</div>
+            <div class="inp-group">
+              <label class="inp-label">Student Name</label>
+              <input class="inp-field" id="s-name" type="text" placeholder="Enter your full name">
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Email Address</label>
+              <input class="inp-field" id="s-email" type="email" placeholder="student@college.edu">
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Current Year</label>
+              <select class="inp-field" id="s-year">
+                <option value="">Select Year</option>
+                <option>1st Year</option><option>2nd Year</option>
+                <option>3rd Year</option><option>4th Year</option>
+              </select>
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Mobile Number</label>
+              <input class="inp-field" id="s-mobile" type="tel" placeholder="+91 98765 43210">
+            </div>
+            <button class="btn-main" onclick="sLogin()">🚀 Create Account</button>
+            <div class="login-link" onclick="sLogin()">Already have an account? Log In</div>
+          </div>
+        </div>
+
+        <!-- PAGE: STUDENT MENU -->
+        <div class="page menu-page" id="s-menu">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="menu-header">
+            <button class="hamburger-btn" onclick="sOpenDrawer()">☰</button>
+            <div class="menu-title">🍽️ Sri Shakthi's</div>
+            <button class="cart-icon-btn">🛒</button>
+          </div>
+          <div class="menu-body" id="s-menu-body">
+            <!-- Morning Menu -->
+            <div class="menu-section-title"><span>☀️</span> Morning Menu</div>
+            <div class="menu-block">
+              <div id="s-morning-grid" class="food-grid">
+                <!-- populated by JS -->
+              </div>
+            </div>
+            <!-- Evening Menu -->
+            <div class="menu-section-title"><span>🌙</span> Evening Menu</div>
+            <div class="menu-block">
+              <div id="s-evening-grid" class="food-grid">
+                <!-- populated by JS -->
+              </div>
+            </div>
+          </div>
+          <div class="add-cart-bar" id="s-cart-bar">
+            <button class="btn-cart" onclick="sGoConfirm()">🛒 Add to Cart (<span id="s-cart-count">0</span> items)</button>
+          </div>
+          <!-- Drawer Overlay -->
+          <div class="drawer-overlay" id="s-drawer-overlay" onclick="sCloseDrawer()"></div>
+          <div class="drawer" id="s-drawer">
+            <div class="drawer-header">
+              <div class="drawer-name" id="s-drawer-name">Student</div>
+              <div class="drawer-role">🎓 Sri Shakthi's Food Court</div>
+            </div>
+            <button class="drawer-btn" onclick="sOpenOverlay('s-account-details')"><span class="dbtn-icon">👤</span>Account</button>
+            <button class="drawer-btn" onclick="sOpenOverlay('s-my-orders')"><span class="dbtn-icon">📋</span>My Orders</button>
+            <button class="drawer-btn" onclick="sOpenOverlay('s-language')"><span class="dbtn-icon">🌐</span>Language</button>
+            <div style="flex:1"></div>
+            <button class="drawer-btn" onclick="sLogout()" style="color:#ff6b6b"><span class="dbtn-icon">🚪</span>Logout</button>
+          </div>
+          <!-- Overlay Pages -->
+          <div class="overlay-page" id="s-account-details">
+            <div class="overlay-title"><button class="overlay-close" onclick="sCloseOverlay('s-account-details')">✕</button>Account Details</div>
+            <div id="s-acct-rows"></div>
+          </div>
+          <div class="overlay-page" id="s-my-orders">
+            <div class="overlay-title"><button class="overlay-close" onclick="sCloseOverlay('s-my-orders')">✕</button>My Orders</div>
+            <div class="empty-state"><span class="empty-icon">📋</span>No orders placed yet.</div>
+          </div>
+          <div class="overlay-page" id="s-language">
+            <div class="overlay-title"><button class="overlay-close" onclick="sCloseOverlay('s-language')">✕</button>Language</div>
+            <button class="lang-btn active" onclick="setLang(this,'English')">🇬🇧 English</button>
+            <button class="lang-btn" onclick="setLang(this,'Tamil')">🇮🇳 Tamil</button>
+          </div>
+        </div>
+
+        <!-- PAGE: CONFIRM ORDER -->
+        <div class="page confirm-page slide-up" id="s-confirm">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="confirm-header">
+            <button class="page-back-btn" onclick="goPage('s','menu')">←</button>
+            <div class="page-back-title">Your Order</div>
+          </div>
+          <div class="confirm-body" id="s-confirm-body"></div>
+          <div class="confirm-footer">
+            <button class="btn-cart" onclick="goPage('s','payment')">✅ Confirm Order</button>
+          </div>
+        </div>
+
+        <!-- PAGE: PAYMENT -->
+        <div class="page payment-page" id="s-payment">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="confirm-header">
+            <button class="page-back-btn" onclick="goPage('s','confirm')">←</button>
+            <div class="page-back-title">Payment</div>
+          </div>
+          <div class="payment-body">
+            <div style="color:#ccc;font-size:0.8rem;text-align:center;margin-bottom:5px;letter-spacing:2px;text-transform:uppercase">Scan QR to Pay</div>
+            <div class="qr-box">
+              <svg class="qr-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- QR Code visual representation -->
+                <rect width="100" height="100" fill="#fff"/>
+                <rect x="5" y="5" width="35" height="35" fill="none" stroke="#000" stroke-width="4"/>
+                <rect x="13" y="13" width="19" height="19" fill="#000"/>
+                <rect x="60" y="5" width="35" height="35" fill="none" stroke="#000" stroke-width="4"/>
+                <rect x="68" y="13" width="19" height="19" fill="#000"/>
+                <rect x="5" y="60" width="35" height="35" fill="none" stroke="#000" stroke-width="4"/>
+                <rect x="13" y="68" width="19" height="19" fill="#000"/>
+                <rect x="60" y="60" width="8" height="8" fill="#000"/>
+                <rect x="72" y="60" width="8" height="8" fill="#000"/>
+                <rect x="84" y="60" width="8" height="8" fill="#000"/>
+                <rect x="60" y="72" width="8" height="8" fill="#000"/>
+                <rect x="84" y="72" width="8" height="8" fill="#000"/>
+                <rect x="60" y="84" width="8" height="8" fill="#000"/>
+                <rect x="72" y="84" width="8" height="8" fill="#000"/>
+                <rect x="84" y="84" width="8" height="8" fill="#000"/>
+                <rect x="45" y="10" width="6" height="6" fill="#000"/>
+                <rect x="52" y="16" width="6" height="6" fill="#000"/>
+                <rect x="45" y="22" width="6" height="6" fill="#000"/>
+                <rect x="52" y="28" width="6" height="6" fill="#000"/>
+              </svg>
+            </div>
+            <div class="payment-amount" id="s-pay-amount">₹ 0</div>
+            <div class="payment-note">Scan the QR code or pay at counter. This is a demo reference.</div>
+            <div style="margin-top:20px;background:rgba(255,255,255,0.06);border-radius:16px;padding:14px;width:100%;text-align:center">
+              <div style="color:#aaa;font-size:0.72rem;margin-bottom:8px">Payment Method</div>
+              <div style="display:flex;gap:10px;justify-content:center">
+                <span style="background:rgba(255,107,53,0.2);color:#ff6b35;padding:6px 14px;border-radius:20px;font-size:0.75rem;border:1px solid rgba(255,107,53,0.3)">UPI</span>
+                <span style="background:rgba(255,255,255,0.08);color:#ccc;padding:6px 14px;border-radius:20px;font-size:0.75rem;border:1px solid rgba(255,255,255,0.15)">Cash</span>
+                <span style="background:rgba(255,255,255,0.08);color:#ccc;padding:6px 14px;border-radius:20px;font-size:0.75rem;border:1px solid rgba(255,255,255,0.15)">Card</span>
+              </div>
+            </div>
+          </div>
+          <div class="confirm-footer">
+            <button class="btn-cart" onclick="sGenerateToken()" style="background:linear-gradient(135deg,#00bb55,#00dc6e)">✅ Done Payment</button>
+          </div>
+        </div>
+
+        <!-- PAGE: TOKEN -->
+        <div class="page" id="s-token" style="background:linear-gradient(160deg,#0a0015,#001a00,#0a0015)">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="confirm-header">
+            <div class="page-back-title" style="color:#00dc6e">🎫 Your Token</div>
+          </div>
+          <div class="token-body">
+            <div class="token-card" id="s-token-card">
+              <div class="token-label">Token Number</div>
+              <span class="token-num" id="s-token-num">42</span>
+              <div class="token-divider"></div>
+              <div class="token-detail" id="s-token-date"></div>
+              <div class="token-detail" id="s-token-time"></div>
+              <div class="token-divider"></div>
+              <div id="s-token-items"></div>
+              <div class="token-divider"></div>
+              <div class="token-detail">Total: <strong id="s-token-total" style="color:#ffcc44"></strong></div>
+            </div>
+            <div style="margin-top:20px;color:#aaa;font-size:0.72rem;text-align:center">Show this token at the counter</div>
+          </div>
+          <div class="confirm-footer">
+            <button class="btn-cart" onclick="goPage('s','menu')" style="background:linear-gradient(135deg,#533ab7,#7f77dd)">✅ Done — Back to Menu</button>
+          </div>
+        </div>
+
+      </div><!-- end iphone-screen -->
+      <button class="back-btn" onclick="sBackBtn()">←</button>
+    </div>
+  </div><!-- end student phone -->
+
+  <!-- ============================================================ -->
+  <!-- ADMIN APP PHONE -->
+  <!-- ============================================================ -->
+  <div class="phone-container">
+    <div class="phone-label">👨‍💼 Admin App</div>
+    <div class="iphone" id="admin-phone">
+      <div class="iphone-notch"></div>
+      <div class="iphone-screen">
+
+        <!-- PAGE: ADMIN SPLASH -->
+        <div class="page splash-bg admin-splash active" id="a-splash">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="food-icons-bg">
+            <span class="food-float" style="top:12%;left:10%;animation-delay:0.2s">⚙️</span>
+            <span class="food-float" style="top:25%;right:10%;animation-delay:0.7s">📋</span>
+            <span class="food-float" style="top:50%;left:8%;animation-delay:1.1s">🍽️</span>
+            <span class="food-float" style="top:65%;right:8%;animation-delay:0.4s">📊</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1">
+            <div style="font-size:3.5rem;margin-bottom:10px;animation:splashZoom 2s ease-out">⚙️</div>
+            <div class="splash-title">Sri Shakthi's<br>Food Court</div>
+            <div class="splash-subtitle" style="color:#64b4ff">Admin Portal</div>
+          </div>
+        </div>
+
+        <!-- PAGE: ADMIN LOGIN -->
+        <div class="page account-bg" id="a-login">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="food-wallpaper" id="a-wallpaper"></div>
+          <div class="form-box" style="margin-top:80px">
+            <div style="font-size:2.5rem;text-align:center;margin-bottom:10px">🔐</div>
+            <div class="form-title">Admin Login</div>
+            <div class="form-sub">Sri Shakthi's Food Court Portal</div>
+            <div class="inp-group">
+              <label class="inp-label">Admin Name</label>
+              <input class="inp-field" id="a-name" type="text" placeholder="Admin name" value="Admin">
+            </div>
+            <div class="inp-group">
+              <label class="inp-label">Password</label>
+              <input class="inp-field" id="a-pass" type="password" placeholder="••••••••" value="admin123">
+            </div>
+            <button class="btn-main" style="background:linear-gradient(135deg,#0055aa,#0088ff)" onclick="aLogin()">🔓 Login</button>
+          </div>
+        </div>
+
+        <!-- PAGE: ADMIN MENU -->
+        <div class="page menu-page" id="a-menu">
+          <div class="status-bar"><span class="status-time">9:41</span><span class="status-icons">▲▲▲ WiFi ●</span></div>
+          <div class="menu-header">
+            <button class="hamburger-btn" onclick="aOpenDrawer()">☰</button>
+            <div class="menu-title" style="color:#64b4ff">⚙️ Admin Panel</div>
+            <div style="width:38px"></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center">
+            <div style="font-size:4rem;margin-bottom:16px;opacity:0.5">🍽️</div>
+            <div style="color:#ccc;font-size:0.85rem;margin-bottom:8px">Menu not configured yet</div>
+            <div style="color:#aaa;font-size:0.75rem">Use ☰ → Today's Menu to set the menu for students</div>
+          </div>
+          <!-- Drawer -->
+          <div class="drawer-overlay" id="a-drawer-overlay" onclick="aCloseDrawer()"></div>
+          <div class="drawer" id="a-drawer" style="background:linear-gradient(160deg,#001a33,#002244)">
+            <div class="drawer-header">
+              <div class="drawer-name" id="a-drawer-name">Admin</div>
+              <div class="drawer-role" style="color:#64b4ff">⚙️ Food Court Admin</div>
+            </div>
+            <button class="drawer-btn" onclick="aOpenOverlay('a-acct-overlay')"><span class="dbtn-icon">👤</span>Account</button>
+            <button class="drawer-btn" onclick="aOpenOverlay('a-today-menu')"><span class="dbtn-icon">📋</span>Today's Menu</button>
+            <button class="drawer-btn" onclick="aOpenOverlay('a-tokens-overlay')"><span class="dbtn-icon">🎫</span>Tokens</button>
+            <div style="flex:1"></div>
+            <button class="drawer-btn" onclick="aLogout()" style="color:#ff6b6b"><span class="dbtn-icon">🚪</span>Logout</button>
+          </div>
+          <!-- Admin Overlays -->
+          <div class="overlay-page" id="a-acct-overlay" style="background:linear-gradient(160deg,#001a33,#002244)">
+            <div class="overlay-title"><button class="overlay-close" onclick="aCloseOverlay('a-acct-overlay')">✕</button>Admin Account</div>
+            <div class="info-row"><span class="info-key">Name</span><span class="info-val" id="a-disp-name">Admin</span></div>
+            <div class="info-row"><span class="info-key">Role</span><span class="info-val">Food Court Manager</span></div>
+            <div class="info-row"><span class="info-key">Access</span><span class="info-val"><span class="badge badge-green">Full Access</span></span></div>
+          </div>
+
+          <div class="overlay-page" id="a-today-menu" style="background:linear-gradient(160deg,#001a33,#002244)">
+            <div class="overlay-title"><button class="overlay-close" onclick="aCloseOverlay('a-today-menu')">✕</button>Set Today's Menu</div>
+            <div class="tab-toggle">
+              <button class="tab-btn active" id="a-tab-morning" onclick="aSelectTab('morning')">☀️ Morning</button>
+              <button class="tab-btn" id="a-tab-evening" onclick="aSelectTab('evening')">🌙 Evening</button>
+            </div>
+            <div id="a-morning-menu-section">
+              <div style="color:#aaa;font-size:0.72rem;margin-bottom:10px">Select items for morning menu</div>
+              <div class="food-grid" id="a-morning-select"></div>
+            </div>
+            <div id="a-evening-menu-section" style="display:none">
+              <div style="color:#aaa;font-size:0.72rem;margin-bottom:10px">Select items for evening menu</div>
+              <div class="food-grid" id="a-evening-select"></div>
+            </div>
+            <div style="height:70px"></div>
+            <div style="position:sticky;bottom:0;padding:12px 0;background:linear-gradient(160deg,#001a33,#002244)">
+              <button class="btn-cart" onclick="aConfirmMenuDialog()" style="background:linear-gradient(135deg,#0055aa,#0088ff)">✅ Confirm Menu</button>
+            </div>
+            <!-- Confirm Dialog -->
+            <div class="msg-box-overlay" id="a-confirm-dialog">
+              <div class="msg-box">
+                <h3>Confirm Menu?</h3>
+                <p>Are you sure with the selected menu items? This will update the Student App.</p>
+                <div class="msg-box-btns">
+                  <button class="msg-no" onclick="document.getElementById('a-confirm-dialog').classList.remove('open')">No</button>
+                  <button class="msg-yes" onclick="aPublishMenu()">Yes, Confirm ✓</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="overlay-page" id="a-tokens-overlay" style="background:linear-gradient(160deg,#001a33,#002244)">
+            <div class="overlay-title"><button class="overlay-close" onclick="aCloseOverlay('a-tokens-overlay')">✕</button>Student Tokens</div>
+            <div id="a-tokens-list">
+              <div class="empty-state"><span class="empty-icon">🎫</span>No tokens generated yet.<br>Tokens from students appear here.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end iphone-screen -->
+      <button class="back-btn" onclick="aBackBtn()">←</button>
+    </div>
+  </div><!-- end admin phone -->
+
+</div><!-- end phones-wrapper -->
+
+<script>
+// ===================== DATA =====================
+const morningItems = [
+  {id:'m1', emoji:'🫓', name:'Idly', price:'₹30'},
+  {id:'m2', emoji:'🥞', name:'Dosa (1 Set)', price:'₹40'},
+  {id:'m3', emoji:'🍲', name:'Pongal', price:'₹50'},
+  {id:'m4', emoji:'🫔', name:'Chapati (1 Set)', price:'₹30'},
+  {id:'m5', emoji:'🍩', name:'Vada', price:'₹10'},
+];
+const eveningItems = [
+  {id:'e1', emoji:'🍛', name:'Chicken Biryani', price:'₹120'},
+  {id:'e2', emoji:'🌿', name:'Veg Biryani', price:'₹80'},
+  {id:'e3', emoji:'🍳', name:'Chicken Fried Rice', price:'₹90'},
+  {id:'e4', emoji:'🍜', name:'Chicken Noodles', price:'₹90'},
+  {id:'e5', emoji:'🫓', name:'Parrotta (1 Set)', price:'₹40'},
+  {id:'e6', emoji:'🫔', name:'Chapati (1 Set)', price:'₹30'},
+];
+const foodEmojis = ['🍛','🥘','🍜','🥗','🍱','☕','🍕','🍔','🌮','🍣','🍝','🥙'];
+
+// ===================== STATE =====================
+let sStudentData = {name:'', email:'', year:'', mobile:''};
+let sSelectedItems = [];
+let sActiveSection = null;
+let sHistory = ['splash'];
+let sCurrent = 'splash';
+let sCartItems = [];
+let sToken = Math.floor(Math.random()*90)+10;
+
+let aAdminName = 'Admin';
+let aHistory = ['splash'];
+let aCurrent = 'splash';
+let aConfirmedMenu = {morning:[], evening:[]};
+let aAdminSelectedMorning = [];
+let aAdminSelectedEvening = [];
+let aTokens = [];
+let aActiveAdminTab = 'morning';
+
+// ===================== INIT WALLPAPER =====================
+function buildWallpaper(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  let html='';
+  for(let i=0;i<60;i++) html+=`<span class="food-tile">${foodEmojis[i%foodEmojis.length]}</span>`;
+  el.innerHTML=html;
+}
+buildWallpaper('s-wallpaper');
+buildWallpaper('a-wallpaper');
+
+// ===================== FOOD GRID BUILDER =====================
+function buildFoodGrid(containerId, items, section, isAdmin=false) {
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  if(items.length===0){
+    el.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">🍽️</span>No items set by admin yet.</div>`;
+    return;
+  }
+  el.innerHTML = items.map(item=>`
+    <div class="food-card" id="${isAdmin?'a':'s'}-card-${item.id}" onclick="${isAdmin?`aToggleItem('${item.id}','${section}')`:`sToggleItem('${item.id}','${section}')`}">
+      ${isAdmin?`<div class="admin-menu-check">✓</div>`:''}
+      <span class="food-emoji">${item.emoji}</span>
+      <div class="food-name">${item.name}</div>
+      <div class="food-price">${item.price}</div>
+    </div>
+  `).join('');
+}
+
+// ===================== SPLASH AUTO-ADVANCE =====================
+setTimeout(()=>{ goPage('s','account'); }, 3000);
+setTimeout(()=>{ goPage('a','login'); }, 3000);
+
+// ===================== PAGE NAVIGATION =====================
+function goPage(app, page) {
+  const prefix = app===('s') ? 's' : 'a';
+  const pages = document.querySelectorAll(`#${app==='s'?'student':'admin'}-phone .page`);
+  pages.forEach(p=>p.classList.remove('active'));
+  const target = document.getElementById(`${prefix}-${page}`);
+  if(target) { target.classList.add('active'); }
+  if(app==='s') {
+    if(sCurrent !== page) { sHistory.push(page); sCurrent = page; }
+  } else {
+    if(aCurrent !== page) { aHistory.push(page); aCurrent = page; }
+  }
+}
+
+// ===================== STUDENT LOGIC =====================
+function sLogin() {
+  const n=document.getElementById('s-name').value||'Student';
+  const e=document.getElementById('s-email').value||'student@college.edu';
+  const y=document.getElementById('s-year').value||'2nd Year';
+  const m=document.getElementById('s-mobile').value||'9876543210';
+  sStudentData={name:n,email:e,year:y,mobile:m};
+  document.getElementById('s-drawer-name').textContent=n;
+  // Build account details overlay
+  document.getElementById('s-acct-rows').innerHTML=`
+    <div class="info-row"><span class="info-key">Name</span><span class="info-val">${n}</span></div>
+    <div class="info-row"><span class="info-key">Email</span><span class="info-val">${e}</span></div>
+    <div class="info-row"><span class="info-key">Year</span><span class="info-val">${y}</span></div>
+    <div class="info-row"><span class="info-key">Mobile</span><span class="info-val">${m}</span></div>
+  `;
+  buildStudentMenu();
+  goPage('s','menu');
+}
+
+function buildStudentMenu() {
+  const morningToShow = aConfirmedMenu.morning.length>0 ? morningItems.filter(i=>aConfirmedMenu.morning.includes(i.id)) : morningItems;
+  const eveningToShow = aConfirmedMenu.evening.length>0 ? eveningItems.filter(i=>aConfirmedMenu.evening.includes(i.id)) : eveningItems;
+  buildFoodGrid('s-morning-grid', morningToShow, 'morning');
+  buildFoodGrid('s-evening-grid', eveningToShow, 'evening');
+}
+
+function sToggleItem(id, section) {
+  // can't mix morning and evening
+  if(sActiveSection && sActiveSection !== section) {
+    // deselect all from other section
+    sSelectedItems.forEach(i=>{
+      const card = document.getElementById(`s-card-${i}`);
+      if(card) card.classList.remove('selected');
+    });
+    sSelectedItems = [];
+    sActiveSection = null;
+  }
+  sActiveSection = section;
+  const card = document.getElementById(`s-card-${id}`);
+  const idx = sSelectedItems.indexOf(id);
+  if(idx>-1) {
+    sSelectedItems.splice(idx,1);
+    card.classList.remove('selected');
+  } else {
+    sSelectedItems.push(id);
+    card.classList.add('selected');
+  }
+  if(sSelectedItems.length===0) sActiveSection=null;
+  const bar = document.getElementById('s-cart-bar');
+  const count = document.getElementById('s-cart-count');
+  if(sSelectedItems.length>0){ bar.classList.add('visible'); count.textContent=sSelectedItems.length; }
+  else { bar.classList.remove('visible'); }
+}
+
+function sGoConfirm() {
+  const allItems = [...morningItems,...eveningItems];
+  sCartItems = sSelectedItems.map(id=>{
+    const item = allItems.find(i=>i.id===id);
+    return {...item, qty:1};
+  });
+  buildConfirmPage();
+  goPage('s','confirm');
+}
+
+function buildConfirmPage() {
+  const body = document.getElementById('s-confirm-body');
+  let total=0;
+  let html = sCartItems.map(item=>{
+    const price = parseInt(item.price.replace(/[₹,]/g,''));
+    total+=price*item.qty;
+    return `
+      <div class="order-item">
+        <span class="order-emoji">${item.emoji}</span>
+        <div class="order-info">
+          <div class="order-name">${item.name}</div>
+          <div class="order-price">${item.price}</div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+          <span class="qty-num" id="qty-${item.id}">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  html += `<div class="total-bar"><span class="total-label">Total Amount</span><span class="total-amount" id="s-total-disp">₹${total}</span></div>`;
+  body.innerHTML = html;
+  document.getElementById('s-pay-amount').textContent = `₹ ${total}`;
+}
+
+function changeQty(id, delta) {
+  const item = sCartItems.find(i=>i.id===id);
+  if(!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  document.getElementById(`qty-${id}`).textContent = item.qty;
+  let total=0;
+  sCartItems.forEach(i=>{ total += parseInt(i.price.replace(/[₹,]/g,''))*i.qty; });
+  document.getElementById('s-total-disp').textContent = `₹${total}`;
+  document.getElementById('s-pay-amount').textContent = `₹ ${total}`;
+}
+
+function sGenerateToken() {
+  sToken = Math.floor(Math.random()*90)+10;
+  const now = new Date();
+  document.getElementById('s-token-num').textContent = String(sToken).padStart(2,'0');
+  document.getElementById('s-token-date').innerHTML = `Date: <strong>${now.toLocaleDateString('en-IN')}</strong>`;
+  document.getElementById('s-token-time').innerHTML = `Time: <strong>${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</strong>`;
+  let total=0;
+  const itemsHtml = sCartItems.map(item=>{
+    const price = parseInt(item.price.replace(/[₹,]/g,''));
+    total += price*item.qty;
+    return `<div class="token-detail">${item.emoji} ${item.name} × ${item.qty}</div>`;
+  }).join('');
+  document.getElementById('s-token-items').innerHTML = itemsHtml;
+  document.getElementById('s-token-total').textContent = `₹${total}`;
+  // Reset token card
+  const card = document.getElementById('s-token-card');
+  card.classList.remove('invalidated');
+  card.innerHTML = `
+    <div class="token-label">Token Number</div>
+    <span class="token-num" id="s-token-num">${String(sToken).padStart(2,'0')}</span>
+    <hr class="token-divider">
+    <div class="token-detail">Date: <strong>${now.toLocaleDateString('en-IN')}</strong></div>
+    <div class="token-detail">Time: <strong>${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</strong></div>
+    <hr class="token-divider">
+    ${itemsHtml}
+    <hr class="token-divider">
+    <div class="token-detail">Total: <strong style="color:#ffcc44">₹${total}</strong></div>
+  `;
+  // Save token for admin
+  const tokenData = {
+    num: sToken, name: sStudentData.name,
+    items: sCartItems.map(i=>`${i.name} × ${i.qty}`),
+    total: total, date: now.toLocaleDateString('en-IN'),
+    time: now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    invalidated: false
+  };
+  aTokens.push(tokenData);
+  updateAdminTokens();
+  goPage('s','token');
+}
+
+function sOpenDrawer() {
+  document.getElementById('s-drawer').classList.add('open');
+  document.getElementById('s-drawer-overlay').classList.add('open');
+  const menuBody = document.getElementById('s-menu-body');
+  if(menuBody) menuBody.style.filter='blur(3px)';
+}
+function sCloseDrawer() {
+  document.getElementById('s-drawer').classList.remove('open');
+  document.getElementById('s-drawer-overlay').classList.remove('open');
+  const menuBody = document.getElementById('s-menu-body');
+  if(menuBody) menuBody.style.filter='none';
+}
+function sOpenOverlay(id) {
+  sCloseDrawer();
+  document.getElementById(id).classList.add('open');
+}
+function sCloseOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function sLogout() { sCloseDrawer(); sSelectedItems=[]; sActiveSection=null; sHistory=['account']; sCurrent='account'; goPage('s','account'); }
+function sBackBtn() {
+  if(sHistory.length>1){ sHistory.pop(); sCurrent=sHistory[sHistory.length-1]; goPage('s',sCurrent); }
+}
+function setLang(btn, lang) {
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===================== ADMIN LOGIC =====================
+function aLogin() {
+  aAdminName = document.getElementById('a-name').value || 'Admin';
+  document.getElementById('a-drawer-name').textContent = aAdminName;
+  document.getElementById('a-disp-name').textContent = aAdminName;
+  buildAdminMenuSelects();
+  goPage('a','menu');
+}
+
+function buildAdminMenuSelects() {
+  buildFoodGrid('a-morning-select', morningItems, 'morning', true);
+  buildFoodGrid('a-evening-select', eveningItems, 'evening', true);
+}
+
+function aSelectTab(tab) {
+  aActiveAdminTab = tab;
+  document.getElementById('a-morning-menu-section').style.display = tab==='morning'?'block':'none';
+  document.getElementById('a-evening-menu-section').style.display = tab==='evening'?'block':'none';
+  document.getElementById('a-tab-morning').classList.toggle('active', tab==='morning');
+  document.getElementById('a-tab-evening').classList.toggle('active', tab==='evening');
+}
+
+function aToggleItem(id, section) {
+  const list = section==='morning' ? aAdminSelectedMorning : aAdminSelectedEvening;
+  const card = document.getElementById(`a-card-${id}`);
+  const idx = list.indexOf(id);
+  if(idx>-1){ list.splice(idx,1); card.classList.remove('selected'); }
+  else { list.push(id); card.classList.add('selected'); }
+}
+
+function aConfirmMenuDialog() {
+  document.getElementById('a-confirm-dialog').classList.add('open');
+}
+
+function aPublishMenu() {
+  document.getElementById('a-confirm-dialog').classList.remove('open');
+  aConfirmedMenu.morning = [...aAdminSelectedMorning];
+  aConfirmedMenu.evening = [...aAdminSelectedEvening];
+  buildStudentMenu();
+  aCloseOverlay('a-today-menu');
+  // Show success message in admin menu
+  const adminMenuContent = document.querySelector('#a-menu > div:not(.menu-header):not(.drawer-overlay):not(.drawer)');
+  if(adminMenuContent){
+    adminMenuContent.innerHTML=`
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:30px;text-align:center">
+        <div style="font-size:3rem;margin-bottom:16px;animation:tokenPulse 2s infinite">✅</div>
+        <div style="color:#00dc6e;font-size:1rem;font-weight:700;margin-bottom:8px">Menu Published!</div>
+        <div style="color:#aaa;font-size:0.75rem">Student App has been updated with today's menu.</div>
+      </div>
+    `;
+  }
+}
+
+function updateAdminTokens() {
+  const list = document.getElementById('a-tokens-list');
+  if(!list) return;
+  if(aTokens.length===0){
+    list.innerHTML=`<div class="empty-state"><span class="empty-icon">🎫</span>No tokens yet.</div>`;
+    return;
+  }
+  list.innerHTML = aTokens.map((t,idx)=>`
+    <div class="admin-token-item" id="a-tok-${idx}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="admin-token-num">#${String(t.num).padStart(2,'0')}</div>
+        ${t.invalidated
+          ? `<span class="badge" style="background:rgba(100,100,100,0.2);color:#666;border:1px solid #444">Invalidated</span>`
+          : `<button onclick="aDoneOrder(${idx})" style="background:linear-gradient(135deg,#ff6b35,#f7931e);border:none;border-radius:10px;color:#fff;font-size:0.72rem;padding:6px 12px;cursor:pointer;font-family:'Poppins',sans-serif">✅ Done Order</button>`
+        }
+      </div>
+      <div class="admin-token-detail">👤 ${t.name}</div>
+      <div class="admin-token-detail">📋 ${t.items.join(', ')}</div>
+      <div class="admin-token-detail">💰 ₹${t.total} &nbsp;|&nbsp; 🕐 ${t.time}</div>
+    </div>
+  `).join('');
+}
+
+function aDoneOrder(idx) {
+  aTokens[idx].invalidated = true;
+  updateAdminTokens();
+  // Invalidate student token visually
+  const card = document.getElementById('s-token-card');
+  if(card) {
+    card.classList.add('invalidated');
+    const numEl = card.querySelector('.token-num');
+    if(numEl) {
+      numEl.style.color='#555';
+      numEl.style.textShadow='none';
+    }
+    card.innerHTML += `<span class="token-invalid-text">⛔ UNVALID TOKEN</span>`;
+  }
+}
+
+function aOpenDrawer() {
+  document.getElementById('a-drawer').classList.add('open');
+  document.getElementById('a-drawer-overlay').classList.add('open');
+}
+function aCloseDrawer() {
+  document.getElementById('a-drawer').classList.remove('open');
+  document.getElementById('a-drawer-overlay').classList.remove('open');
+}
+function aOpenOverlay(id) {
+  aCloseDrawer();
+  document.getElementById(id).classList.add('open');
+  if(id==='a-tokens-overlay') updateAdminTokens();
+}
+function aCloseOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function aLogout() { aCloseDrawer(); aHistory=['login']; aCurrent='login'; goPage('a','login'); }
+function aBackBtn() {
+  if(aHistory.length>1){ aHistory.pop(); aCurrent=aHistory[aHistory.length-1]; goPage('a',aCurrent); }
+}
+
+// ===================== CLOCK UPDATE =====================
+function updateClocks(){
+  const now=new Date();
+  const t=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  document.querySelectorAll('.status-time').forEach(el=>el.textContent=t);
+}
+setInterval(updateClocks,30000);
+updateClocks();
+</script>
+</body>
+</html>
